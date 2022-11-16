@@ -36,6 +36,6 @@ export class Api {
   fetchDeleteLikeCards(cardId) { return this.fetchApi(`cards/${cardId}/likes`, "DELETE"); }
 }
 
-const api = new Api("https://mesto.nomoreparties.co/v1/cohort-44/", "1258d110-8ca8-495c-a7c0-b616ac51df70");
+const api = new Api("https://mesto.nomoreparties.co/v1/cohort-52/", " a616ae4a-e48b-45d5-bb84-b54bbaa2d914");
 
 export default api;
