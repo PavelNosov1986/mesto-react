@@ -1,38 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import Avatar from '../images/Avatar.jpg';
 import api from '../utils/api';
-
-
-
+import Card from './Card';
 
 function Main(props) {
     const [userInfo, setUserInfo] = useState();
-    const [cards, setCards] = useState(['']);
+    const [cards, setCards] = useState();
 
     useEffect(() => {
-       
-            api.fetchGetMe().then((response) => {   
-                
-                setUserInfo(response);           
-        })
-
-       
-
-}, [])
+        Promise.all([api.fetchGetMe(),
+        api.fetchGetCards()])
+            .then(([response, response1]) => {
+                setUserInfo(response);
+                setCards(response1);
+            });
+    }, []);
 
     return (<>
         <main className="content">
-
             <section className="profile">
-
                 <div className="profile__avatar-info">
-
                     <div className="profile__container-img">
                         <img src={userInfo?.avatar ? userInfo?.avatar : Avatar}
                             alt="Аватар"
                             className="profile__avatar" />
-                        <button onClick={props.onEditAvatar} title="Загрузить новый аватар" className="profile__update-avatar">
-                        </button>
+                        <button className="profile__update-avatar" onClick={props.onEditAvatar} title="Загрузить новый аватар" type="button" ></button>
                     </div>
 
                     <div className="profile__info">
@@ -47,33 +39,13 @@ function Main(props) {
                 <button className="profile__add-button" onClick={props.onAddPlace} title="Добавить новые карточки" type="button"></button>
             </section>
 
-            <section className="cards">
-                <template className="template">
-                    <li className="element">
-                        <button className="element__delete" type="button"></button>
-                        <img src="#" alt="Места России" className="element__image" />
-                        <div className="element__description">
-                            <h2 className="element__title">Название места</h2>
-                            <div className="elemments__like-counter">
-                                <button className="element__like" type="button"></button>
-                                <span className="element__counter" id="counter"></span>
-                            </div>
-                        </div>
-                    </li>
-                </template>
-            </section>
+            {cards && cards.length > 0
+                && <section className="cards">
+                    {cards.map((card, i) => { return <Card onCardClick={props.onCardClick} key={i} card={card} /> })}
+                </section>}
 
         </main>
-
-
-
-
-
-
-
-
     </>)
 }
-
 
 export default Main;
