@@ -50,7 +50,7 @@ function App() {
         <PopupAdd isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
         <PopupEdit isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
         <PopupUpdataAvatarForm isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
-        {selectedCard && <ImagePopup card={selectedCard} onClose={closeAllPopups} />}
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </>
     );
 }

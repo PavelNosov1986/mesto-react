@@ -4,15 +4,15 @@ import api from '../utils/api';
 import Card from './Card';
 
 function Main(props) {
-    const [userInfo, setUserInfo] = useState();
-    const [cards, setCards] = useState();
+    const [userInfo, setUserInfo] = useState('');
+    const [cards, setCards] = useState('');
 
     useEffect(() => {
         Promise.all([api.fetchGetMe(),
         api.fetchGetCards()])
-            .then(([response, response1]) => {
-                setUserInfo(response);
-                setCards(response1);
+            .then(([userInfo, cards]) => {
+                setUserInfo(userInfo);
+                setCards(cards);
             });
     }, []);
 
@@ -41,7 +41,7 @@ function Main(props) {
 
             {cards && cards.length > 0
                 && <section className="cards">
-                    {cards.map((card, i) => { return <Card onCardClick={props.onCardClick} key={i} card={card} /> })}
+                    {cards.map((card, id) => { return <Card onCardClick={props.onCardClick} key={id} card={card} /> })}
                 </section>}
 
         </main>
