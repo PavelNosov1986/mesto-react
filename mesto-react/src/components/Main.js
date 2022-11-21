@@ -4,8 +4,8 @@ import api from '../utils/api';
 import Card from './Card';
 
 function Main(props) {
-    const [userInfo, setUserInfo] = useState('');
-    const [cards, setCards] = useState('');
+    const [userInfo, setUserInfo] = useState({});
+    const [cards, setCards] = useState([]);
 
     useEffect(() => {
         Promise.all([api.fetchGetMe(),
@@ -41,7 +41,7 @@ function Main(props) {
 
             {cards && cards.length > 0
                 && <section className="cards">
-                    {cards.map((card, id) => { return <Card onCardClick={props.onCardClick} key={id} card={card} /> })}
+                    {cards.map((card, _id) => { return <Card onCardClick={props.onCardClick} key={_id} card={card} /> })}
                 </section>}
 
         </main>
