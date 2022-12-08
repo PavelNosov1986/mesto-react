@@ -6,19 +6,31 @@ import { CardsContext } from '../contexts/CardsContext';
 import api from '../utils/api';
 
 function Main(props) {
-
     const currentUser = useContext(CurrentUserContext);
     const { cards, setCards } = useContext(CardsContext);
 
     function handleCardLike(card) {
         // Снова проверяем, есть ли уже лайк на этой карточке
         const isLiked = card.likes.some(i => i._id === currentUser._id);
+        if (isLiked) {
+            api.fetchDeleteLikeCards(card._id).then((newCard) => {
+                const newCads = cards.map((c) => c._id === card._id ? newCard : c);
+                setCards([...newCads]);
+            });
+        }
+        else {
+            api.fetchAddLikeCards(card._id).then((newCard) => {
+                const newCads = cards.map((c) => c._id === card._id ? newCard : c);
+                setCards([...newCads]);
+            });
+        }
+    }
 
-        // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.fetchGetCards(card._id, !isLiked).then((newCard) => {
-            //let ss = cards.map((c) => c._id === card._id ? newCard : c)
-            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-        });
+    function handleCardDelete(card) {
+        api.fetchDeleteCards(card._id)
+            .then(() => {
+                setCards(cards => cards.filter(c => c._id !== card._id));
+            });
     }
 
     return (<>
@@ -53,6 +65,7 @@ function Main(props) {
                             key={card._id}
                             card={card}
                             onCardLike={handleCardLike}
+                            onCardDelete={handleCardDelete}
                         />
                     })}
                 </section>}

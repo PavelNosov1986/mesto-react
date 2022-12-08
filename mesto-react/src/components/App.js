@@ -11,7 +11,7 @@ import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 
 function App() {
-   
+
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -57,6 +57,22 @@ function App() {
         setSelectedCard(card);
     }
 
+    function handleUpdateUser(user) {
+        api.fetchUpdateMe(user)
+            .then((res) => {
+                setCurrentUser(res);
+                closeAllPopups();
+            });
+    }
+
+    function handleUpdateAvatar(avatar) {
+        api.fetchUpdateAvatar(avatar)
+            .then((res) => {
+                setCurrentUser(res);
+                closeAllPopups();
+            });
+    }
+
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <CardsContext.Provider value={{ cards, setCards }}>
@@ -78,9 +94,11 @@ function App() {
                 <PopupEdit
                     isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
+                    onUpdateUser={handleUpdateUser}
                 />
 
                 <PopupUpdataAvatarForm
+                    onUpdateAvatar={handleUpdateAvatar}
                     isOpen={isEditAvatarPopupOpen}
                     onClose={closeAllPopups} />
 
