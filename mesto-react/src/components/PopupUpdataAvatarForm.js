@@ -8,7 +8,7 @@ function PopupUpdataAvatarForm({isOpen, onClose, onUpdateAvatar}) {
         evt.preventDefault();
         onUpdateAvatar({
           avatar: editAvatarRef.current.value,
-        })
+        });
       }
 
     return (<PopupWithForm name="updataAvatarFormt" title="Обновить аватар" submit="Сохранить" isOpen={isOpen}
