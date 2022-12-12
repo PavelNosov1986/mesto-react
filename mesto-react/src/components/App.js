@@ -5,7 +5,7 @@ import Header from './Header';
 import Main from './Main';
 import PopupAdd from './PopupAdd';
 import PopupEdit from './PopupEdit';
-import PopupUpdataAvatarForm from './PopupUpdataAvatarForm';
+import PopupUpdateAvatarForm from './PopupUpdateAvatarForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 
@@ -21,6 +21,9 @@ function App() {
         api.fetchGetMe()
             .then((user) => {
                 setCurrentUser(user);
+            })
+            .catch((err) => {
+                console.log('Ошибка. Запрос не выполнен');
             });
     }, []);
 
@@ -28,6 +31,9 @@ function App() {
         api.fetchGetCards()
             .then((cards) => {
                 setCards(cards);
+            })
+            .catch((err) => {
+                console.log('Ошибка. Запрос не выполнен');
             });
     }, []);
 
@@ -59,6 +65,9 @@ function App() {
             .then((res) => {
                 setCurrentUser(res);
                 closeAllPopups();
+            })
+            .catch((err) => {
+                console.log('Ошибка. Запрос не выполнен');
             });
     }
 
@@ -67,6 +76,9 @@ function App() {
             .then((res) => {
                 setCurrentUser(res);
                 closeAllPopups();
+            })
+            .catch((err) => {
+                console.log('Ошибка. Запрос не выполнен');
             });
     }
 
@@ -75,6 +87,9 @@ function App() {
             .then((newCard) => {
                 setCards([newCard, ...cards]);
                 closeAllPopups();
+            })
+            .catch((err) => {
+                console.log('Ошибка. Запрос не выполнен');
             });
     }
 
@@ -84,20 +99,31 @@ function App() {
             api.fetchDeleteLikeCards(card._id).then((newCard) => {
                 const newCads = cards.map((c) => c._id === card._id ? newCard : c);
                 setCards([...newCads]);
-            });
+            })
+                .catch((err) => {
+                    console.log('Ошибка. Запрос не выполнен');
+                });
         }
+
         else {
             api.fetchAddLikeCards(card._id).then((newCard) => {
                 const newCads = cards.map((c) => c._id === card._id ? newCard : c);
                 setCards([...newCads]);
-            });
+            })
+                .catch((err) => {
+                    console.log('Ошибка. Запрос не выполнен');
+                });
         }
+
     }
 
     function handleCardDelete(card) {
         api.fetchDeleteCards(card._id)
             .then(() => {
-                setCards(cards => cards.filter(c => c._id !== card._id));
+                setCards(cards => cards.filter(c => c._id !== card._id))
+                    .catch((err) => {
+                        console.log('Ошибка. Запрос не выполнен');
+                    });
             });
     }
 
@@ -129,7 +155,7 @@ function App() {
                 onUpdateUser={handleUpdateUser}
             />
 
-            <PopupUpdataAvatarForm
+            <PopupUpdateAvatarForm
                 onUpdateAvatar={handleUpdateAvatar}
                 isOpen={isEditAvatarPopupOpen}
                 onClose={closeAllPopups} />

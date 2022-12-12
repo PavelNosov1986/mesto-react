@@ -32,14 +32,14 @@ function PopupEdit({ isOpen, onClose, onUpdateUser }) {
     return (<PopupWithForm name="edit" title="Редактировать профиль" submit="Сохранить" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
 
         <label className="popup__field-input">
-            <input className="popup__input" type="text" id="name" name="name" value={name} placeholder="Имя"
+            <input className="popup__input" type="text" id="name" name="name" value={name || ''} placeholder="Имя"
                 required minLength="2" maxLength="40" onChange={handleNameChange} />
             <span className="popup__input-error" id="error-name"></span>
         </label>
 
         <label className="popup__field-input">
             <input className="popup__input" type="text" id="description" name="description"
-                value={description} placeholder="О себе" required minLength="2" maxLength="200" onChange={handleDescriptionChange} />
+                value={description || ''} placeholder="О себе" required minLength="2" maxLength="200" onChange={handleDescriptionChange} />
             <span className="popup__input-error" id="error-description"></span>
         </label>
 
