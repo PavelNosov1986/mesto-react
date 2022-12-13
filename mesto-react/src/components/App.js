@@ -120,12 +120,13 @@ function App() {
     function handleCardDelete(card) {
         api.fetchDeleteCards(card._id)
             .then(() => {
-                setCards(cards => cards.filter(c => c._id !== card._id))
-                    .catch((err) => {
-                        console.log('Ошибка. Запрос не выполнен');
-                    });
+                setCards(cards => cards.filter(c => c._id !== card._id));
+            })
+            .catch((err) => {
+                console.log('Ошибка. Запрос не выполнен');
             });
-    }
+    };
+
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
